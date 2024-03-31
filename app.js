@@ -38,7 +38,7 @@ function rerenderMenu(activeHabbit) {
             element.addEventListener('click', () => {
                 rerender(habbit.id);
             })
-            element.innerHTML = `<img class="img__button_menu" src="/image/${habbit.icon}.svg" alt="${habbit.name}">`
+            element.innerHTML = `<img class="img__button_menu" src="image/${habbit.icon}.svg" alt="${habbit.name}">`
              if (activeHabbit.id === habbit.id) {  // Зачем это дублировать
             element.classList.add('active__img_button_menu');
             } 
