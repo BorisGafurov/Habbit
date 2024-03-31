@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "Comfortaa Regular";
+    src: local("Comfortaa Regular"),
+        local("Comfortaa-Regular"),
+        url("Comfortaa-Regular.ttf") format("ttf"),
+        url("Comfortaa-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Comfortaa SemiBold";
+    src: local("Comfortaa SemiBold"),
+        local("Comfortaa-SemiBold"),
+        url("Comfortaa-SemiBold.ttf") format("ttf"),
+        url("Comfortaa-SemiBold.woff") format("woff");
+}
