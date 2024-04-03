@@ -8,7 +8,12 @@ const HABBIT_KEY = 'HABBIT_KEY';
 
 // Данные с HTML
 const page = {
-    menu: document.querySelector('.menu__list')
+    menu: document.querySelector('.menu__list'),
+    header: {
+        headerText: document.querySelector('.header__text'),
+        progressPercentage: document.querySelector('.progress__percentage'),
+        progressStripActive: document.querySelector('.progress__strip_active')
+    }
 }
 
 // Загрузка и сохранение данных
@@ -24,7 +29,7 @@ function saveData() {
     localStorage.setItem(HABBIT_KEY, JSON.stringify(habbits));
 }
 
-// Работа меню render
+// Рендер меню 
 function rerenderMenu(activeHabbit) {
     if (!activeHabbit) {
         return;
@@ -51,9 +56,30 @@ function rerenderMenu(activeHabbit) {
     }
 }
 
+// Рендер шапки
+function rerenderHeader (activeHabbit) {
+    if (!activeHabbit) {
+        return;
+    }
+    page.header.headerText.innerText = activeHabbit.name;
+    const daysCompleted = activeHabbit.days.length;
+    const target = activeHabbit.target;
+    const progress = daysCompleted / target * 100 > 100
+        ? 100
+        : daysCompleted / target * 100;
+    page.header.progressPercentage.innerText = progress.toFixed(0) + '%';
+    page.header.progressStripActive.setAttribute('style', `width: ${progress}%`);
+    console.log(habbits);
+    console.log(daysCompleted)
+}
+
+/*// Рендер дней
+    function rerenderDays*/
+
 function rerender(activeHabbitId) {
     const activeHabbit = habbits.find(habbit => habbit.id === activeHabbitId);
     rerenderMenu(activeHabbit);
+    rerenderHeader(activeHabbit);
 }   
 
 
