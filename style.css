@@ -97,13 +97,13 @@ body {
     grid-template-rows: 1fr 3fr;
 }
 
-
 .main {
     display: grid;
-    grid-template-rows: repeat(6, 110px);
+    grid-template-rows: repeat(5, 110px);
     gap: 12px;
     padding-inline-start: 49px;
 }
+
 
 .header {
     display: grid;
@@ -158,18 +158,17 @@ body {
     position: absolute;
 }
 
-.form {
-    display: flex;
-}
 
 .div__input {
-    display: flex;
-    min-width: 812px;
+    display: grid;
+    grid-template-columns: 200px 880px;
+    width: 900px;
     margin-block-end: 12px;
 }
 
 .div__form_day {
-    display: flex;
+    display: grid;
+    grid-column: 1;
     background: rgba(251, 250, 255, 1);
     min-width: 129px;
     min-height: 70%;
@@ -177,14 +176,18 @@ body {
     font-weight: 500;
     font-size: 20px;
     line-height: 16px;
-    padding: 10px 38px 0px 43px;
+    padding: 0px 38px 0px 43px;
     align-items: center;
     justify-content: center;
     border-radius: 10px 0 0 10px;
 }
 
+form {
+    display: grid;
+}
+
 input {
-    width: 100%;
+    grid-column: 1;
     height: 40px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 1);
@@ -198,7 +201,9 @@ input {
 }
 
 .comment__div {
-    display: flex;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-column: 2;
     gap: 15px;
     min-width: 880px;
     min-height: 70%;
@@ -245,6 +250,7 @@ input {
 
 .done {
     display: flex;
+    grid-column: 2;
     align-items: center;
     justify-content: center;
     padding: 14px 30px;
@@ -264,4 +270,3 @@ input {
     cursor: pointer;
     background: rgb(217, 216, 243);
 }
-

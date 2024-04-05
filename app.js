@@ -1,9 +1,9 @@
 'use strict'
 
-const buttons = Array.from(document.querySelectorAll('.button__menu'));
-const habbitName = document.getElementById('habbitName');
-const progressPercentage = document
-let habbits = [];
+import data from './data.json' assert{type:'json'};
+
+let habbits = data;
+console.log(data);
 const HABBIT_KEY = 'HABBIT_KEY';
 
 // Данные с HTML
@@ -13,20 +13,11 @@ const page = {
         headerText: document.querySelector('.header__text'),
         progressPercentage: document.querySelector('.progress__percentage'),
         progressStripActive: document.querySelector('.progress__strip_active')
+    },
+    contentDays: {
+        currentDay: document.querySelector('.main'),
+        nextDays: document.querySelector('.div__input:last-of-type')
     }
-}
-
-// Загрузка и сохранение данных
-function loadData() {
-    const habbitsString = localStorage.getItem(HABBIT_KEY);
-    const habbitArray = JSON.parse(habbitsString);
-    if (Array.isArray(habbitArray)) {
-        habbits = habbitArray;
-    }
-}
-
-function saveData() {
-    localStorage.setItem(HABBIT_KEY, JSON.stringify(habbits));
 }
 
 // Рендер меню 
@@ -57,7 +48,7 @@ function rerenderMenu(activeHabbit) {
 }
 
 // Рендер шапки
-function rerenderHeader (activeHabbit) {
+function rerenderHeader(activeHabbit) {
     if (!activeHabbit) {
         return;
     }
@@ -69,24 +60,58 @@ function rerenderHeader (activeHabbit) {
         : daysCompleted / target * 100;
     page.header.progressPercentage.innerText = progress.toFixed(0) + '%';
     page.header.progressStripActive.setAttribute('style', `width: ${progress}%`);
-    console.log(habbits);
-    console.log(daysCompleted)
 }
 
-/*// Рендер дней
-    function rerenderDays*/
+// Рендер дней
+    function rerenderDays(activeHabbit) {
+        page.contentDays.currentDay.innerHTML = '';
+        const promises = [];
+        for (const day in activeHabbit.days) {
+            const element = document.createElement('div');
+            element.classList.add('div__input');
+            element.setAttribute('style', `grid-row: ${Number(day) + 1}`);
+            element.innerHTML = 
+            `<div class="div__form_day">День ${Number(day) + 1} </div> 
+            <div class="comment__div">${[activeHabbit.days[day].comment]}
+             <button class="comment__icon_delete">
+                <img src="image/delete.svg" alt="Удалить">
+             </button>
+            </div>`;
+            promises.push(new Promise(resolve => {
+                page.contentDays.currentDay.appendChild(element);
+                resolve();
+            }));
+        };
+        
+        const newDayForm = document.createElement('div');
+        newDayForm.classList.add('div__input');       
+    newDayForm.innerHTML = 
+    `<div class="div__form_day">День ${activeHabbit.days.length + 1}</div>
+    <form class="form__day form__active">
+        <div class="comment__div">
+            <input class="comment__input" type="text" name="comment" placeholder="Комментарий">
+            <div class="comment__icon">
+                <img  src="image/Vector.svg" alt="Комментарий">
+            </div>
+            <button class="done" type="submit">Готово</button>
+        </div>
+    </form>`;
+    page.contentDays.currentDay.appendChild(newDayForm);
+    Promise.all(promises).then(() => {});
+    }
 
 function rerender(activeHabbitId) {
     const activeHabbit = habbits.find(habbit => habbit.id === activeHabbitId);
     rerenderMenu(activeHabbit);
     rerenderHeader(activeHabbit);
+    rerenderDays(activeHabbit);
 }   
 
 
 // Init
 
 (() => {
-    loadData();
+    
     rerender(habbits[0].id);
 }) ();
 
