@@ -8,6 +8,7 @@ let globalActiveHabbitId;
 // Данные с HTML
 const page = {
     menu: document.querySelector('.menu__list'),
+    menuAdd: document.querySelector('.add'),
     header: {
         headerText: document.querySelector('.header__text'),
         progressPercentage: document.querySelector('.progress__percentage'),
@@ -16,7 +17,42 @@ const page = {
     contentDays: {
         currentDay: document.querySelector('.main'),
         nextDays: document.querySelector('.div__input:last-of-type')
+    },
+    popup: {
+        popupCover: document.querySelector('.cover'),
+        popupClose: document.querySelector('.popup__close'),
+        popupIcon: document.querySelector('.popup__form input[name="icon"]'),
+        iconButtons: document.querySelectorAll('.icon')
     }
+}
+
+function resetForm(form, fields) {
+    for (const field of fields) {
+        form[field].value = '';
+    }
+}
+
+function validateForm(form, fields) {
+    const formData = new FormData(form);
+    const res = {};
+    for (const field of fields) {
+        const fieldValue = formData.get(field);
+        form[field].classList.remove('error');
+        if(!fieldValue) {
+            form[field].classList.add('error');
+        }
+        res[field] = fieldValue;
+    }
+    let isValid = true;
+    for (const field of fields) {
+        if (!res[field]) {
+            isValid = false;
+        }
+    }
+    if (!isValid) {
+        return;
+    }
+    return res;
 }
 
 
@@ -107,25 +143,30 @@ function rerenderHeader(activeHabbit) {
 
 // Работа с днями
 function addDays(event) {
-    const form = event.target;
     event.preventDefault();
-    const data = new FormData(form);
+    //const form = event.target;
+    const data = validateForm(event.target, ['comment']);
+    if (!data) {
+        return;
+    }
+    /*const data = new FormData(form);
     const comment = data.get('comment');
     form['comment'].classList.remove('error');
     if ( comment === '') {
         form['comment'].classList.add('error');
         return;
-    }
+    }*/
     habbits = habbits.map(habbit => {
         if (habbit.id === globalActiveHabbitId) {
             return {
                 ...habbit,
-                days: habbit.days.concat([{ comment }])
+                days: habbit.days.concat([{ comment: data.comment }])
             }
         }
         return habbit;
     });
-    form['comment'].value = '';
+    resetForm(event.target, ['comment']);
+    //form['comment'].value = '';
     rerender(globalActiveHabbitId);
     
 }
@@ -148,10 +189,64 @@ function rerender(activeHabbitId) {
     rerenderMenu(activeHabbit);
     rerenderHeader(activeHabbit);
     rerenderDays(activeHabbit);
+    popup();
+
 } 
+
+
+// Попап
+// Выбор иконки
+function setIcon(context, icon) {
+    page.popup.popupIcon.value = icon;
+    const activeIcon = document.querySelector('.icon.icon__active');
+    activeIcon.classList.remove('icon__active');
+    context.classList.add('icon__active');
+
+}
+
+// Появление попап
+function popup() {
+    page.menuAdd.addEventListener('click', () => 
+        page.popup.popupCover.classList.remove('cover__hidden')
+    );
+    closePopup();
+}
+
+// Закрытие попап 
+function closePopup() {
+    page.popup.popupClose.addEventListener('click', () => 
+    page.popup.popupCover.classList.add('cover__hidden')
+    );
+}
+
+// Добавление привычки
+function addHabbit(event) {
+    event.preventDefault();
+   const data = validateForm(event.target, ['name', 'icon', 'target']);
+    if (!data) {
+        return;
+    }
+    const maxId = habbits.reduce((acc, habbit) => acc > habbit.id ? acc : habbit.id, 0);
+    habbits.push({
+        id: maxId + 1,
+        name: data.name,
+        target: data.target,
+        icon: data.icon,
+        days: []
+    });
+    rerender(maxId + 1);
+    resetForm(event.target, ['name', 'target']);
+}
 
 // Init
 
 (() => {
     rerender(habbits[0].id);
 }) ();
+
+page.popup.iconButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const selectedIcon = button.getAttribute('alt');
+        setIcon(button, selectedIcon);
+    });
+});

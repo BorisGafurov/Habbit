@@ -337,11 +337,11 @@ input {
     filter: brightness(0) invert(1);
 }
 
-.icon-active {
+.icon__active {
     background: rgba(80, 81, 249, 1);
 }
 
-.icon-active img {
+.icon__active img {
     filter: brightness(0) invert(1);
 }
 
@@ -352,7 +352,7 @@ h2 {
     line-height: 26px;
 }
 
-.icon-label {
+.icon__label {
     font-family: 'Comfortaa SemiBold', sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -360,12 +360,13 @@ h2 {
     color: rgba(118, 131, 150, 1);
 }
 
-.icon-select {
+.icon__select {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 25px;
+    margin-block-start: 15px;
 }
 
 .popup__form {

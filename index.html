@@ -54,9 +54,9 @@
         <div class="cover cover__hidden">
             <div class="popup">
                 <h2>Новая привычка</h2>
-                <div class="icon-label">Иконка</div>
-                <div class="icon-select">
-                <button class="icon icon-active">
+                <div class="icon__label">Иконка</div>
+                <div class="icon__select">
+                <button class="icon icon__active">
                     <img class="img__button_menu" src="image/sport.svg" alt="Спорт">
                 </button>
                 <button class="icon">
@@ -65,8 +65,9 @@
                 <button class="icon">
                     <img class="img__button_menu" src="image/Water.svg" alt="Вода">
                 </button>
-                <form class="popup__form">
+                <form class="popup__form" onsubmit="addHabbit(event)">
                     <input type="text" name="name" placeholder="Название">
+                    <input type="text" name="icon"  placeholder="icon" value="sport">
                     <input type="number" name="target" placeholder="Цель">
                     <button class="done" type="submit">Добавить</button>
                 </form>
@@ -77,6 +78,6 @@
         </div>
     </div>
     </div>
-<script type="module" src="app.js"></script>  
+<script type="module" src="app.js"></script> 
 </body>
 </html>
