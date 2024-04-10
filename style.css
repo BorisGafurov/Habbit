@@ -6,14 +6,16 @@ body {
 
 .app {
     min-width: 1024px;
+    height: 100vh;
     display: grid;
     grid-template-columns: 1fr 11fr;
 }
 
 .panel {
+    position: fixed;
     display: grid;
     grid-template-rows: 1fr 2fr;
-    min-height: 100vh;
+    min-height: 100%;
     min-width: 151px;
     margin: auto;
     background: white;
@@ -94,21 +96,23 @@ body {
 
 .active__block {
     display: grid; 
+    margin-inline-start: 200px;
     grid-template-rows: 1fr 3fr;
 }
 
 .main {
     display: grid;
+    max-height: 80vh;
     grid-template-rows: repeat(5, 110px);
     gap: 12px;
     padding-inline-start: 49px;
 }
 
-
 .header {
     display: grid;
+    gap: 492px;
     grid-template-columns: repeat(2, 1fr);
-    margin-top: 45px;
+    margin-block-start: 45px;
     height: 15%;
 }
 
@@ -127,7 +131,7 @@ body {
 
 .progress__name {
     font-family: 'Comfortaa Regular', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 16px;
     margin-top: 7px;
@@ -135,7 +139,7 @@ body {
 
 .progress__percentage {
     font-family: 'Comfortaa Regular', sans-serif;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 13.38px;
     margin-top: 10px;
@@ -158,11 +162,11 @@ body {
     position: absolute;
 }
 
-
 .div__input {
     display: grid;
     grid-template-columns: 200px 880px;
     width: 900px;
+    min-height: 100px;
     margin-block-end: 12px;
 }
 
@@ -184,39 +188,45 @@ body {
 
 form {
     display: grid;
+    gap: 15px;
 }
 
 input {
     grid-column: 1;
+    width: 512px;
     height: 40px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(231, 235, 251, 1);
     position: relative;
-    padding: 2px 47px;
+    padding: 2px 0px 0px 40px;
     font-family: 'Comfortaa Regular';
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 16px;
 }
 
+.error {
+    border: 1px solid red;
+}
+
 .comment__div {
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 521px 120px;
     grid-column: 2;
-    gap: 15px;
-    min-width: 880px;
+    gap: 35px;
+    width: 715px;
     min-height: 70%;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(231, 235, 251, 1);
     border-radius: 0  10px 10px 0;
     position: relative;
     font-family: 'Comfortaa SemiBold', sans-serif;
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 18px;
     color: rgba(35, 35, 95, 1);
-    padding: 11px 20px 17px 24px;
+    padding: 7px 0px 5px 24px;
     align-items: center;
 }
 
@@ -231,15 +241,16 @@ input {
     position: absolute;
     width: 18px;
     height: 18px;
-    top: 34px;
+    top: 40px;
     left: 42px;
 }
 
 .comment__icon_delete {
-    margin-left: auto;
+    width: 40px;
+    margin-inline-start: 80px;
     background: none;
     border: none;
-    border-radius: 5px;
+    border-radius: 7px;
     padding-top: 5px;
 }
 
@@ -254,7 +265,7 @@ input {
     align-items: center;
     justify-content: center;
     padding: 14px 30px;
-    min-width: 120px;
+    width: 130px;
     min-height: 39px;
     border: 1px solid rgba(231, 235, 251, 1);
     border-radius: 10px;
@@ -269,4 +280,97 @@ input {
 .done:hover {
     cursor: pointer;
     background: rgb(217, 216, 243);
+}
+
+.cover {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.25);
+    align-items: center;
+    justify-content: center;
+}
+
+.cover__hidden {
+    display: none;
+}
+
+.popup {
+    display: flex;
+    box-shadow: 0px 8px 14px 12px rgba(56, 56, 56, 0.05);
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    max-width: 700px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.popup__close {
+    position: absolute; 
+    right: 15px;
+    top: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.icon {
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 1);
+    border: none;
+    width: 76px;
+    height: 75px;
+    box-shadow: 0px 8px 14px 0px rgba(62, 107, 224, 0.12);
+}
+
+.icon:hover {
+    cursor: pointer;
+    background: rgba(106, 106, 251, 1);
+}
+
+.icon:hover img {
+    filter: brightness(0) invert(1);
+}
+
+.icon-active {
+    background: rgba(80, 81, 249, 1);
+}
+
+.icon-active img {
+    filter: brightness(0) invert(1);
+}
+
+h2 {
+    font-family: 'Comfortaa SemiBold', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.icon-label {
+    font-family: 'Comfortaa SemiBold', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 15px;
+    color: rgba(118, 131, 150, 1);
+}
+
+.icon-select {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.popup__form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
 }
