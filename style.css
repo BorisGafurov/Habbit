@@ -103,7 +103,7 @@ body {
 .main {
     display: grid;
     max-height: 80vh;
-    grid-template-rows: repeat(5, 110px);
+    grid-auto-rows: 110px;
     gap: 12px;
     padding-inline-start: 49px;
 }
