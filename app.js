@@ -22,7 +22,8 @@ const page = {
         popupCover: document.querySelector('.cover'),
         popupClose: document.querySelector('.popup__close'),
         popupIcon: document.querySelector('.popup__form input[name="icon"]'),
-        iconButtons: document.querySelectorAll('.icon')
+        iconButtons: document.querySelectorAll('.icon'),
+        popupForm: document.querySelector('.popup__form')
     }
 }
 
@@ -149,13 +150,6 @@ function addDays(event) {
     if (!data) {
         return;
     }
-    /*const data = new FormData(form);
-    const comment = data.get('comment');
-    form['comment'].classList.remove('error');
-    if ( comment === '') {
-        form['comment'].classList.add('error');
-        return;
-    }*/
     habbits = habbits.map(habbit => {
         if (habbit.id === globalActiveHabbitId) {
             return {
@@ -206,9 +200,19 @@ function setIcon(context, icon) {
 
 // Появление попап
 function popup() {
-    page.menuAdd.addEventListener('click', () => 
-        page.popup.popupCover.classList.remove('cover__hidden')
-    );
+    page.menuAdd.addEventListener('click', () => {
+        page.popup.popupCover.classList.remove('cover__hidden');
+    });
+    page.popup.popupForm.addEventListener('submit', addHabbit);
+    page.popup.iconButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const selectedIcon = button.getAttribute('data-icon');
+        setIcon(button, selectedIcon);
+    });
+});
+page.popup.popupForm.addEventListener('submit', () => {
+    page.popup.popupCover.classList.add('cover__hidden');
+});
     closePopup();
 }
 
@@ -222,20 +226,36 @@ function closePopup() {
 // Добавление привычки
 function addHabbit(event) {
     event.preventDefault();
-   const data = validateForm(event.target, ['name', 'icon', 'target']);
-    if (!data) {
+    const formData = new FormData(event.target);
+    const name = formData.get('name');
+    const icon = formData.get('icon');
+    const target = parseInt(formData.get('target'));
+
+    // Проверка наличия пустых полей
+    if (!name || isNaN(target)) {
+        // Добавление класса error к пустым полям ввода
+        if (!name) {
+            event.target.querySelector('input[name="name"]').classList.add('error');
+        }
+        if (isNaN(target)) {
+            event.target.querySelector('input[name="target"]').classList.add('error');
+        }
         return;
     }
-    const maxId = habbits.reduce((acc, habbit) => acc > habbit.id ? acc : habbit.id, 0);
-    habbits.push({
+
+    const maxId = Math.max(...habbits.map(habbit => habbit.id), 0);
+    const newHabbit = {
         id: maxId + 1,
-        name: data.name,
-        target: data.target,
-        icon: data.icon,
+        name: name,
+        icon: icon,
+        target: target,
         days: []
-    });
-    rerender(maxId + 1);
-    resetForm(event.target, ['name', 'target']);
+    };
+    habbits.push(newHabbit);
+
+    event.target.reset();
+
+    rerender(newHabbit.id);
 }
 
 // Init
@@ -244,9 +264,7 @@ function addHabbit(event) {
     rerender(habbits[0].id);
 }) ();
 
-page.popup.iconButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const selectedIcon = button.getAttribute('alt');
-        setIcon(button, selectedIcon);
-    });
+page.menuAdd.addEventListener('click', () => {
+    page.popup.popupCover.classList.remove('cover__hidden');
 });
+
